@@ -7,6 +7,7 @@ import { environment } from '../../environments/environment';
 
 import { SignupForm } from '../models/signup';
 import { FormGroup } from '@angular/forms';
+import { LoginForm } from '../models/login';
 
 @Injectable({providedIn: 'root'})
 export class LoginService {
@@ -21,6 +22,15 @@ export class LoginService {
     }
 
     return this.http.post(this.routeUrl(this.environment.login.registerUser), payload);
+  }
+  
+  loginUser(userInfo: FormGroup<LoginForm>): Observable<any> {
+    const payload = {
+      email: userInfo.controls.email.value,
+      password: userInfo.controls.password.value,
+    }
+
+    return this.http.post(this.routeUrl(this.environment.login.loginUser), payload);
   }
 
   private routeUrl(endpoint: string): string {

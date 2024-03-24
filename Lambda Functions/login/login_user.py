@@ -3,10 +3,18 @@ import boto3
 import re
 from botocore.exceptions import ClientError
 
-# Helper function to create standardized responses
-def create_response(status_code, body):
+def create_response(status_code, body, extra_headers=None):
+    headers = {
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+    }
+    if extra_headers:
+        headers.update(extra_headers)
+
     return {
         "statusCode": status_code,
+        "headers": headers,
         "body": json.dumps(body),
     }
 

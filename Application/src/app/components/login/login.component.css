@@ -64,9 +64,16 @@ form {
   justify-content: center;
 }
 
+
 .error {
   font-size: small;
   color: rgb(255, 77, 77);
+  margin: 0;
+}
+
+.success {
+  font-size: small;
+  color: rgb(27, 207, 3);
   margin: 0;
 }
 

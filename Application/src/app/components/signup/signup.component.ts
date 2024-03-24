@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { SignupForm } from '../../models/signup';
 import { LoginService } from '../../services/login.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-signup',
@@ -14,10 +15,14 @@ import { LoginService } from '../../services/login.service';
 })
 export class SignupComponent implements OnInit {
   loading = false;
+  serverSuccessMessage: string | null = null;
+  serverErrorMessage: string | null = null;
+
   signupForm: FormGroup<SignupForm>;
 
   private readonly fb = inject(FormBuilder);
   private readonly loginService = inject(LoginService);
+  private readonly router = inject(Router);
   
   ngOnInit(): void {
     this.signupForm = this.fb.group({
@@ -28,12 +33,19 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.signupForm.value);
-
     this.loading = true;
     
+    this.serverErrorMessage = null;
+    this.serverSuccessMessage = null;
+
     this.loginService.registerUser(this.signupForm).subscribe({
-      next: (response) => console.log(response),
+      next: (response) => {
+        this.serverSuccessMessage = response.message;
+        setTimeout(() => {this.router.navigate(["/dashboard"])}, 3000)
+      },
+      error: (response: HttpErrorResponse) => {
+        this.serverErrorMessage = response.error.message;
+      }
     }).add(() => this.loading = false);
   }
 }
