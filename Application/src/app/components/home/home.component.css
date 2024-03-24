@@ -1,0 +1,35 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.home h1 {
+  margin-bottom: 4rem;
+}
+
+.navigation-buttons {
+  display: flex;
+  gap: 2rem;
+  width: 30rem;
+}
+
+.navigation-buttons button {
+  width: 100%;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  background-color: black;
+  color: white;
+  font-size: x-large;
+  border: none;
+
+  transition: background-color 150ms ease-in-out;
+}
+
+.navigation-buttons button:hover {
+  background-color: rgb(103, 103, 103);
+  cursor: pointer;
+}
