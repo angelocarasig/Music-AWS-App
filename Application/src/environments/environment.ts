@@ -3,5 +3,11 @@ export const environment = {
   login: {
     registerUser: '/login/register-user',
     loginUser: '/login/login-user',
+  },
+  music: {
+    getMusic: '/music/get-music'
+  },
+  subscriptions: {
+    getMusic: '/subscriptions/get-music'
   }
 };

@@ -3,8 +3,9 @@ import { Component, inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { LoginForm } from '../../models/login';
-import { LoginService } from '../../services/login.service';
+import { HttpService } from '../../services/http.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -21,8 +22,9 @@ export class LoginComponent {
   serverErrorMessage: string | null = null;
   
   private readonly fb = inject(FormBuilder);
-  private readonly loginService = inject(LoginService);
   private readonly router = inject(Router);
+  private readonly loginService = inject(HttpService);
+  private readonly authService = inject(AuthService);
   
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -39,7 +41,9 @@ export class LoginComponent {
     
     this.loginService.loginUser(this.loginForm).subscribe({
       next: (response) => {
+        console.log(response);
         this.serverSuccessMessage = response.message;
+        this.authService.saveUser(response.item);
         setTimeout(() => {this.router.navigate(["/dashboard"])}, 3000)
       },
       error: (response: HttpErrorResponse) => {

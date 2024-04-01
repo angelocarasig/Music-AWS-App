@@ -3,8 +3,9 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { SignupForm } from '../../models/signup';
-import { LoginService } from '../../services/login.service';
+import { HttpService } from '../../services/http.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -21,8 +22,9 @@ export class SignupComponent implements OnInit {
   signupForm: FormGroup<SignupForm>;
 
   private readonly fb = inject(FormBuilder);
-  private readonly loginService = inject(LoginService);
   private readonly router = inject(Router);
+  private readonly loginService = inject(HttpService);
+  private readonly authService = inject(AuthService);
   
   ngOnInit(): void {
     this.signupForm = this.fb.group({
@@ -41,7 +43,7 @@ export class SignupComponent implements OnInit {
     this.loginService.registerUser(this.signupForm).subscribe({
       next: (response) => {
         this.serverSuccessMessage = response.message;
-        setTimeout(() => {this.router.navigate(["/dashboard"])}, 3000)
+        setTimeout(() => {this.router.navigate(["/login"])}, 3000)
       },
       error: (response: HttpErrorResponse) => {
         this.serverErrorMessage = response.error.message;

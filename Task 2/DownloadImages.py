@@ -9,7 +9,7 @@ def download_images():
         json_data = json.load(f)
 
         for item in json_data['songs']:
-            filename = f"{item['title']} - {item['artist']}{item['year']}.jpg".replace(" ", "_")
+            filename = f"{item['title'].lower()}-{item['artist'].lower()}-{item['year'].lower()}.jpg".replace(" ", "_")
             file_directory = f"{directory}/images/{filename}"
 
             response = requests.get(item["img_url"])

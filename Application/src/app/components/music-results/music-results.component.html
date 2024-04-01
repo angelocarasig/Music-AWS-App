@@ -1,0 +1,25 @@
+<div class="music-results">
+  <table class="query-results">
+    <thead>
+      <th>Title</th>
+      <th>Artist</th>
+      <th>Year</th>
+      <th>Subscribe</th>
+    </thead>
+    <tbody>
+      @for (musicItem of musicItems; track $index) {
+      <tr>
+        <td>{{ musicItem.title }}</td>
+        <td>{{ musicItem.artist }}</td>
+        <td>{{ musicItem.year }}</td>
+        <td class="subscribe">
+          <img [src]="getMusicUrl(musicItem)"/>
+          <button (click)="subscribeToItem(musicItem)">
+            <span>Subscribe</span>
+          </button>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,109 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  width: 100vw;
+  height: 100vh;
+
+}
+
+.section {
+  padding: 2rem;
+}
+
+.container {
+  height: 100%;
+  width: 100%;
+  border-radius: 2rem;
+  border: 1px solid black;
+  background-color: white;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.split {
+  flex: 1;
+
+  display: flex;
+  gap: 2rem;
+}
+
+.user-info {
+  flex: 2;
+  
+  background-color: red;
+}
+
+.subscriptions {
+  flex: 2;
+
+  background-color: blue;
+}
+
+.query {
+  flex: 1;
+
+  background-color: green;
+}
+
+.query-container {
+  justify-content: initial;
+}
+
+.margin {
+  margin-bottom: 1rem;
+}
+
+.music-results-container {
+  width: 95%;
+  max-height: 20rem;
+
+  display: flex;
+  justify-content: center;
+  overflow-y: auto;
+  scrollbar-gutter: stable both-sides;
+}
+
+.loading {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button {
+  width: 60%;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  background-color: black;
+  color: white;
+  font-size: x-large;
+  border: none;
+
+  transition: background-color 150ms ease-in-out;
+}
+
+button:hover {
+  background-color: rgb(103, 103, 103);
+  cursor: pointer;
+}
+
+form {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+input {
+  width: 100%;
+  font-size: medium;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 0.5px solid black;
+}
