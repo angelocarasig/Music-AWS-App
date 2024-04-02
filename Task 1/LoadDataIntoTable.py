@@ -10,6 +10,11 @@ def load_data_into_table(db):
     print("Adding Items:")
 
     for item in data['songs']:
+
+      # Need to normalize music details so querying is easier
+      item['title'] = item['title'].lower()
+      item['artist'] = item['artist'].lower()
+      
       print(f"{item['title']} | {item['artist']} | {item['year']}")
 
       response = table.put_item(Item=item)
