@@ -83,21 +83,7 @@ export class DashboardComponent implements OnInit {
 
     this.httpService.getUserSubscriptions().subscribe({
       next: (res: Array<any>) => {
-        this.userSubscriptions = [];
-        res.forEach((subscription: string) => {
-          // TODO: SHOULD BE RETRIEVING MUSIC ITEMS FROM MUSIC TABLE
-
-          const parts = subscription.split('-');
-          const musicItem = {
-            title: parts.slice(0, parts.length - 2).join('-').replaceAll("_", " "),
-            author: parts[parts.length - 2].replaceAll("_", " "),
-            year: parts[parts.length - 1],
-            img_url: `https://s3906344-cosc2626-a1-music.s3.amazonaws.com/${subscription}.jpg`
-          };
-
-          this.userSubscriptions.push(musicItem);
-        })
-        console.log("Subscriptions: ", this.userSubscriptions);
+        console.log("Subscriptions: ", res);
       },
       error: (err) => console.error(err)
     }).add(() => this.subscriptionsLoading = false);

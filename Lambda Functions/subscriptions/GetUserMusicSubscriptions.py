@@ -64,6 +64,9 @@ def lambda_handler(event, context):
             ExpressionAttributeValues={":email": email},
         )
         items = response.get("Items")
+        if not items:
+            return create_response(200, items)
+        
         # Returns {"email": "...", "music": "item"}
         # Format first so its an array of music item strings
         # Then call music db and return array of music items from the given strings
