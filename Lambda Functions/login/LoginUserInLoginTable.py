@@ -3,14 +3,22 @@ import boto3
 import re
 from botocore.exceptions import ClientError
 
-def create_response(status_code, body, extra_headers=None):
+def create_response(status_code, body):
+    """ "
+    Returns a http response with CORS headers
+
+    Parameters:
+    - status_code (int): HTTP status code of the response.
+    - body (dict): the body content to be serialized in json.
+
+    Returns:
+    - dict: An object for the formatted HTTP response with keys for 'statusCode', 'headers', and 'body'.
+    """
     headers = {
         "Access-Control-Allow-Headers": "Content-Type",
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
     }
-    if extra_headers:
-        headers.update(extra_headers)
 
     return {
         "statusCode": status_code,
@@ -18,10 +26,12 @@ def create_response(status_code, body, extra_headers=None):
         "body": json.dumps(body),
     }
 
+
 def lambda_handler(event, context):
     db = boto3.resource("dynamodb", region_name="us-east-1")
     table = db.Table("login")
 
+    # Form validation
     try:
         body = json.loads(event.get("body", ""))
         email = body.get("email")
@@ -40,6 +50,7 @@ def lambda_handler(event, context):
     except json.JSONDecodeError:
         return create_response(400, {"message": "Request body is not valid JSON."})
 
+    # Verify user exists in table
     try:
         response = table.get_item(Key={"email": email})
         item = response.get("Item")
@@ -47,7 +58,7 @@ def lambda_handler(event, context):
             return create_response(404, {"message": "User with the provided email does not exist."})
         
         if item["password"] == password:
-            return create_response(200, {"message": "Login successful."})
+            return create_response(200, {"message": "Login successful.", "item": item})
         else:
             return create_response(401, {"message": "The password is incorrect."})
 

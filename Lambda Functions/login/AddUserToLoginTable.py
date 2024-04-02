@@ -3,15 +3,23 @@ import boto3
 import re
 from botocore.exceptions import ClientError
 
-# New function to create responses with CORS headers
-def create_response(status_code, body, extra_headers=None):
+
+def create_response(status_code, body):
+    """ "
+    Returns a http response with CORS headers
+
+    Parameters:
+    - status_code (int): HTTP status code of the response.
+    - body (dict): the body content to be serialized in json.
+
+    Returns:
+    - dict: An object for the formatted HTTP response with keys for 'statusCode', 'headers', and 'body'.
+    """
     headers = {
         "Access-Control-Allow-Headers": "Content-Type",
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
     }
-    if extra_headers:
-        headers.update(extra_headers)
 
     return {
         "statusCode": status_code,
@@ -19,16 +27,18 @@ def create_response(status_code, body, extra_headers=None):
         "body": json.dumps(body),
     }
 
+
 def lambda_handler(event, context):
     db = boto3.resource("dynamodb", region_name="us-east-1")
     table = db.Table("login")
 
+    # Form validations
     try:
         body = json.loads(event.get("body", ""))
+
         email = body.get("email")
         if not email:
             return create_response(400, {"message": "email could not be found in the payload."})
-        
         email_validator = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b"
         if not (re.fullmatch(email_validator, email)):
             return create_response(400, {"message": "email format is not valid."})
@@ -37,7 +47,7 @@ def lambda_handler(event, context):
         if not user_name:
             return create_response(400, {"message": "user_name could not be found in the payload."})
         if len(user_name) < 6:
-            return create_response(400, {"message": "user_name is less than 6 characters."})
+            return create_response(400, {"message": "username is less than 6 characters."})
 
         password = body.get("password")
         if not password:
@@ -45,19 +55,27 @@ def lambda_handler(event, context):
         if len(password) < 6:
             return create_response(400, {"message": "password is less than 6 characters."})
     except json.JSONDecodeError:
-        return create_response(400, {"message": "Request body is not valid JSON."})
+        return create_response(400, {"message": "request is not valid json."})
 
+    # Verify user doesn't already exist
     try:
         response = table.get_item(Key={"email": email})
         if "Item" in response:
-            return create_response(400, {"message": "User already exists."})
+            return create_response(400, {"message": "Email already exists."})
     except ClientError as e:
         print(e)
-        return create_response(500, {"message": "An error occurred during database operation."})
-
+        return create_response(500, {"message": "An error occurred validating the user. (Try again?)"})
+    
+    # Insert user into table
     try:
-        table.put_item(Item={"email": email, "user_name": user_name, "password": password})
+        table.put_item(
+            Item={
+                "email": email,
+                "user_name": user_name,
+                "password": password,
+            }
+        )
         return create_response(201, {"message": "User created successfully."})
     except ClientError as e:
         print(e)
-        return create_response(500, {"message": "An error occurred during database operation."})
+        return create_response(500, {"message": "An error occurred in trying to create the user. (Try again?)"})
