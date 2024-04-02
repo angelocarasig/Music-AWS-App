@@ -1,16 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { MusicItem } from '../../models/music_item';
+import { MusicTitleCasePipe } from './music-results-titlecase.pipe';
 
 @Component({
   selector: 'app-music-results',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MusicTitleCasePipe],
   templateUrl: './music-results.component.html',
   styleUrl: './music-results.component.css'
 })
 export class MusicItemComponent {
   @Input() musicItems: Array<MusicItem>;
+  @Input() buttonTitle: string
 
   getMusicUrl(musicItem: MusicItem): string {
     const musicUrlOptions = {

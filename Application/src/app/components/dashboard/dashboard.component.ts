@@ -20,15 +20,7 @@ export class DashboardComponent implements OnInit {
   userSubscriptions: Array<any> = [];
   subscriptionsLoading = false;
 
-  queryResults = [
-    {
-      "year": "1981",
-      "web_url": "https://raw.githubusercontent.com/davidpots/songnotes_cms/master/public/songs/5-john-lennon-watching-the-wheels",
-      "artist": "John Lennon",
-      "img_url": "https://raw.githubusercontent.com/davidpots/songnotes_cms/master/public/images/artists/JohnLennon.jpg",
-      "title": "Watching the Wheels"
-    }
-  ]
+  queryResults = []
 
   queryForm: FormGroup<QueryForm>;
   emptyQuery = false;

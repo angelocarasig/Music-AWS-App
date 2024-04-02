@@ -9,13 +9,13 @@
     <tbody>
       @for (musicItem of musicItems; track $index) {
       <tr>
-        <td>{{ musicItem.title }}</td>
-        <td>{{ musicItem.artist }}</td>
-        <td>{{ musicItem.year }}</td>
+        <td>{{ musicItem.title | titlecase | musicTitleCase }}</td>
+        <td>{{ musicItem.artist | titlecase | musicTitleCase }}</td>
+        <td>{{ musicItem.year | titlecase | musicTitleCase }}</td>
         <td class="subscribe">
           <img [src]="getMusicUrl(musicItem)"/>
           <button (click)="subscribeToItem(musicItem)">
-            <span>Subscribe</span>
+            <span>{{buttonTitle}}</span>
           </button>
         </td>
       </tr>

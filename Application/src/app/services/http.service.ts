@@ -36,12 +36,17 @@ export class HttpService {
     return this.http.post(this.routeUrl(this.environment.login.loginUser), payload);
   }
 
+  // Note: as data in table is normalized to lowercase the values here will also be normalized to receive results regardless of case-sensitivity
   queryMusic(queryPayload: FormGroup<QueryForm>): Observable<any> {
+    
+    // Some smarts in here: https://stackoverflow.com/a/40560953
     const payload = {
-      title: queryPayload.controls.title.value,
-      artist: queryPayload.controls.artist.value,
-      year: queryPayload.controls.year.value
+      ...(queryPayload.controls.title.value.trim() !== '' && { title: queryPayload.controls.title.value.toLowerCase() }),
+      ...(queryPayload.controls.artist.value.trim() !== '' && { artist: queryPayload.controls.artist.value.toLowerCase() }),
+      ...(queryPayload.controls.year.value.trim() !== '' && { year: +queryPayload.controls.year.value }),
     }
+
+    console.log("Payload: ", payload);
 
     return this.http.post(this.routeUrl(this.environment.music.getMusic), payload);
   }
@@ -54,9 +59,7 @@ export class HttpService {
 
     let params = new HttpParams().set('email', currentUser.email);
     
-    return this.http.get(this.routeUrl(this.environment.subscriptions.getMusic), { params }).pipe(
-      map((response: any) => response.items.map((item: any) => item.music))
-    )
+    return this.http.get(this.routeUrl(this.environment.subscriptions.getMusic), { params });
   }
 
   private routeUrl(endpoint: string): string {
