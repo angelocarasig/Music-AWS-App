@@ -91,7 +91,7 @@ export class HttpService {
       music: musicItem,
     }
 
-    return this.http.post(this.routeUrl(this.environment.subscriptions.deleteMusic), payload);
+    return this.http.request('delete', this.routeUrl(this.environment.subscriptions.deleteMusic), { body: payload });
   }
 
   // As boto3 get_batch_items returns { S: {object }} we need to map results

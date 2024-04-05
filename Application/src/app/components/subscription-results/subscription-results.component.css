@@ -55,6 +55,7 @@ th {
 }
 
 .subscribe button {
+  width: 60%;
   padding: 0.5rem;
   border-radius: 1rem;
   background-color: black;
@@ -68,4 +69,13 @@ th {
 .subscribe button:hover {
   background-color: rgb(51, 252, 128);
   cursor: pointer;
+}
+
+.subscribe button.subscribed {
+  background-color: rgb(51, 252, 128) !important;
+  cursor: not-allowed;
+}
+
+.processing {
+  background-color: rgb(114, 114, 114) !important;
 }
