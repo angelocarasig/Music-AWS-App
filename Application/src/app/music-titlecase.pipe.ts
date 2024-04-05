@@ -10,7 +10,7 @@ export class MusicTitleCasePipe implements PipeTransform {
   transform(value: string): string {
     if (!value) return value;
 
-    const wordlist = ['A', 'An', 'The'];
+    const wordlist = ['A', 'An', 'The', 'And', 'Of', 'In'];
     const words = value.split(' ');
 
     return words
@@ -21,14 +21,11 @@ export class MusicTitleCasePipe implements PipeTransform {
         // Capitalize single-letter words
         if (word.length === 1 && word !== 'A') return word.toUpperCase();
 
-        // lowercase 2 letter words
-        if (word.length === 2) return word.toLowerCase();
-
         // Handle articles
         if (wordlist.includes(word) && index !== 0) return word.toLowerCase();
 
         // Check for various roman numerals (other than I)
-        if (word.match(/^(II|III|IV|V|VI|VII|VIII|IX|X)+$/i)) return word.toUpperCase();
+        if (word.match(/^(ii|iii|iv|v|vi|vii|viii|ix|x)+$/i)) return word.toUpperCase();
 
         return word;
       })

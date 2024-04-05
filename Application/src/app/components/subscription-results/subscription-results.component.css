@@ -71,11 +71,6 @@ th {
   cursor: pointer;
 }
 
-.subscribe button.subscribed {
-  background-color: rgb(51, 252, 128) !important;
-  cursor: not-allowed;
-}
-
 .processing {
   background-color: rgb(114, 114, 114) !important;
 }

@@ -51,6 +51,11 @@ export class DashboardComponent implements OnInit {
     this.refreshSubscriptions();
   }
 
+  logout(): void {
+    this.authService.logoutUser();
+    this.router.navigate(['/']);
+  }
+
   refreshSubscriptions(): void {
     this.subscriptionsLoading = true;
 

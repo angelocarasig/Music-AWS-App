@@ -4,8 +4,15 @@
       <div class="container">
         <h2>User</h2>
         <p>Currently logged in as: {{currentUser?.user_name}}</p>
-        <p>Currently subscribed to X records</p>
-        <button class="margin">Logout</button>
+        <p>Currently subscribed to <span>
+          @if (!subscriptionsLoading) {
+            {{userSubscriptions.length}}
+          }
+          @else {
+            ...
+          }
+        </span> records</p>
+        <button (click)="logout()" class="margin">Logout</button>
       </div>
     </div>
   
@@ -54,7 +61,7 @@
             <form [formGroup]="queryForm" (ngSubmit)="onSubmit()">
               <input formControlName="title" placeholder="Title">
               <input formControlName="artist" placeholder="Artist">
-              <input formControlName="year" type="number" placeholder="Year">
+              <input formControlName="year" type="string" placeholder="Year">
               <button type="submit">
                 <span>Submit</span>
               </button>
