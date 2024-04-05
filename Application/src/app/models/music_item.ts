@@ -3,4 +3,6 @@ export interface MusicItem {
   artist: string;
   year: string;
   img_url: string;
+  subscribed?: boolean;
+  processing?: boolean;
 }

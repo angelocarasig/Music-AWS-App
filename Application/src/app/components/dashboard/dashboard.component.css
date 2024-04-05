@@ -110,3 +110,27 @@ input {
   border-radius: 0.5rem;
   border: 0.5px solid black;
 }
+
+.refresh-subscriptions {
+  width: 95%;
+  display: grid;
+  align-items: center;
+  grid-auto-flow: column;
+}
+
+.refresh-subscriptions h2 {
+  justify-self: center;
+}
+
+.refresh-subscriptions button.refresh-button {
+    border: 1px solid grey;
+
+    justify-self: flex-end;
+    background: transparent;
+    width: min-content;
+    border-radius: 10rem;
+}
+
+.refresh-subscriptions button.refresh-button:hover {
+  background: grey;
+}

@@ -10,6 +10,7 @@ import { FormGroup } from '@angular/forms';
 import { LoginForm } from '../models/login';
 import { QueryForm } from '../models/query';
 import { AuthService } from './auth.service';
+import { MusicItem } from '../models/music_item';
 
 @Injectable({providedIn: 'root'})
 export class HttpService {
@@ -59,7 +60,49 @@ export class HttpService {
 
     let params = new HttpParams().set('email', currentUser.email);
     
-    return this.http.get(this.routeUrl(this.environment.subscriptions.getMusic), { params });
+    return this.http.get(this.routeUrl(this.environment.subscriptions.getMusic), { params })
+    .pipe(
+      map((response: any) => response.map((item: any) => this.transformApiResponse(item)))
+    );
+  }
+
+  addUserSubscription(musicItem: MusicItem): Observable<any> {
+    const currentUser = this.authService.getUser()!;
+    if (currentUser == null) {
+      throw new Error("Currently logged in user could not be found.");
+    }
+
+    const payload = {
+      user: currentUser,
+      music: musicItem,
+    }
+
+    return this.http.post(this.routeUrl(this.environment.subscriptions.addMusic), payload);
+  }
+
+  deleteUserSubscription(musicItem: MusicItem): Observable<any> {
+    const currentUser = this.authService.getUser()!;
+    if (currentUser == null) {
+      throw new Error("Currently logged in user could not be found.");
+    }
+
+    const payload = {
+      user: currentUser,
+      music: musicItem,
+    }
+
+    return this.http.post(this.routeUrl(this.environment.subscriptions.deleteMusic), payload);
+  }
+
+  // As boto3 get_batch_items returns { S: {object }} we need to map results
+  private transformApiResponse(response: { [key: string]: { S: string } }): any {
+    const transformed = {} as any;
+    for (const key in response) {
+      if (response.hasOwnProperty(key) && response[key].hasOwnProperty('S')) {
+        transformed[key] = response[key]['S'];
+      }
+    }
+    return transformed;
   }
 
   private routeUrl(endpoint: string): string {

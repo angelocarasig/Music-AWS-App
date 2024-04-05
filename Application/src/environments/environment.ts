@@ -8,6 +8,8 @@ export const environment = {
     getMusic: '/music/get-music'
   },
   subscriptions: {
-    getMusic: '/subscriptions/get-music'
+    getMusic: '/subscriptions/get-music',
+    addMusic: '/subscriptions/add-music',
+    deleteMusic: '/subscriptions/delete-music',
   }
 };
