@@ -1,7 +1,7 @@
 import json
 import os
 
-def load_data_into_table(db):
+def load_music_data_into_table(db):
   table = db.Table('music')
   directory = os.path.dirname(os.path.realpath(__file__))
 

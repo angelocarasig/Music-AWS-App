@@ -63,7 +63,6 @@ export class DashboardComponent implements OnInit {
       .getUserSubscriptions()
       .subscribe({
         next: (res: Array<any>) => {
-          console.log('Subscriptions: ', res);
           this.userSubscriptions = res;
           this.sortMusicItemArray(this.userSubscriptions);
         },
@@ -85,14 +84,11 @@ export class DashboardComponent implements OnInit {
           this.emptyQuery = true;
         }
 
-        console.log("Results: ", res.body);
         this.queryResults = res.body;
 
         // Once we get results we update the matches, then map the query results to find those that are existing subscriptions
         this.updateQueryMatches();
         this.remapQueryResults();
-
-        console.log('Query Matches: ', this.queryMatches);
       },
       error: (err) => console.error(err),
     })

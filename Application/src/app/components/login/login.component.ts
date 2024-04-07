@@ -41,7 +41,6 @@ export class LoginComponent {
     
     this.loginService.loginUser(this.loginForm).subscribe({
       next: (response) => {
-        console.log(response);
         this.serverSuccessMessage = response.message;
         this.authService.saveUser(response.item);
         setTimeout(() => {this.router.navigate(["/dashboard"])}, 3000)

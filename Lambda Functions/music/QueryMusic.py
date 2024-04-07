@@ -28,7 +28,7 @@ def create_response(status_code, body):
 
 def lambda_handler(event, context):
     try:
-        json_body = json.loads(event["body"]) if "body" in event else {}
+        json_body = json.loads(event['body'])
     except json.JSONDecodeError:
         return create_response(400, {"message": "Request body is not valid JSON."})
 
@@ -48,11 +48,12 @@ def lambda_handler(event, context):
 
     # By default filter assumes AND operator
     filter_expression = " AND ".join(filter_parts)
+    print("FilterExpression: ", filter_expression)
 
     try:
         # If no expressions return the table items.
         if not expression_attribute_names:
-            response = table.scan()
+            response = { "items": [] }
         # Otherwise return the filtered
         else:
             response = table.scan(

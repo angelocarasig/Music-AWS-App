@@ -47,8 +47,6 @@ export class HttpService {
       ...(queryPayload.controls.year.value.trim() !== '' && { year: +queryPayload.controls.year.value }),
     }
 
-    console.log("Payload: ", payload);
-
     return this.http.post(this.routeUrl(this.environment.music.getMusic), payload);
   }
 

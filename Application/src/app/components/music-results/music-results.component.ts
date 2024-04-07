@@ -46,7 +46,6 @@ export class MusicResultsComponent implements OnChanges {
       return;
     }
 
-    console.log(`Subscribing to ${musicItem.title} by ${musicItem.artist}!`);
     musicItem.processing = true;
     this.subscribeEmitter.emit(musicItem);
   }
