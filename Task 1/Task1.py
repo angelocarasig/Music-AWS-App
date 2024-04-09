@@ -13,5 +13,5 @@ if __name__=="__main__":
     create_login_table(db)
     load_user_data_into_table(db)
 
-    # create_music_table(db)
-    # load_music_data_into_table(db)
+    create_music_table(db)
+    load_music_data_into_table(db)
