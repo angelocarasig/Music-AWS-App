@@ -6,6 +6,8 @@ Student Details: Anton Angelo Carasig (s3906344)
 
 This folder contains Task 1 which includes:
 
+- Creating a table in DynamoDB titled 'login'
+- Populating table with some data
 - Creating a table in DynamoDB titled 'music'
 - Populating the table with data from 'a1.json'
 
